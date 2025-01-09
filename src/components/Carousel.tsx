@@ -60,7 +60,7 @@ function App() {
                   alt={img}
                   layout="fill"
                   objectFit="contain"
-                  className="max-w-[70vw] max-h-[40vh] m-auto transform transition-all duration-300 hover:scale-95 hover:opacity-80"
+                  className="max-w-[70vw] max-h-[40vh] m-auto transform transition-all duration-300"
                 />
                 <div className="absolute inset-0 flex items-center ">
                   <h1
@@ -81,4 +81,3 @@ function App() {
 }
 
 export default App;
-

@@ -2,10 +2,20 @@
 
 import { cn } from "@/lib/utils";
 import GridPattern from "@/components/ui/grid-pattern";
+import Noise from "../ui/Noise";
 
 export function GridPatternLinearGradient() {
   return (
-    <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden">
+    <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden grain relative">
+      {/* <div >
+        <Noise
+          patternSize={250}
+          patternScaleX={1}
+          patternScaleY={1}
+          patternRefreshInterval={2}
+          patternAlpha={12}
+        />
+      </div> */}
       <GridPattern
         width={80}
         height={80}

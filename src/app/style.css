@@ -1,0 +1,103 @@
+/* Copyright (c) 2024 by Yudiz Solutions Limited (https://codepen.io/yudizsolutions/pen/jOgoamN) */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
+:root {
+  --black-color: #101117;
+  --white-color: #fff;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Oswald", sans-serif;
+
+  background: linear-gradient(
+    to right,
+    #fbfaff 0%,
+    40.00000059604645%,
+    #fbfaff 80.0000011920929%,
+    90.00000059604645%,
+    #ecf0fb 100%
+  );
+  color: var(--black-color);
+  font-size: 16px;
+  line-height: 1.3;
+}
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+a {
+  text-decoration: none;
+  color: var(--black-color);
+}
+ul,
+ol {
+  list-style: none;
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.mouse-effect {
+  opacity: 0;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+.circle {
+  position: absolute;
+  background-color: var(--black-color);
+  width: 10px;
+  height: 10px;
+  left: 0px;
+  top: 0px;
+  border-radius: 100%;
+  z-index: 111111;
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.05s;
+}
+.circle-follow {
+  position: absolute;
+  border: 1px solid var(--black-color);
+  width: 40px;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+  border-radius: 100%;
+  z-index: 111111;
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.1s;
+}
+
+.main-txt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: -4px;
+  z-index: -1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+@media (max-width: 1199px) {
+  .mouse-effect {
+    display: none;
+  }
+}

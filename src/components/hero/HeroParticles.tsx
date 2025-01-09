@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import Noise from '../ui/Noise'
 // import { syneEB } from "@/app/layout";
 
 import Particles from "@/components/ui/particles";
@@ -17,6 +18,15 @@ export function HeroParticle() {
   return (
     <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-background md:shadow-xl">
       <h1 className= 'syne'>ANSHUL</h1>
+      <div >
+        <Noise
+          patternSize={250}
+          patternScaleX={1}
+          patternScaleY={1}
+          patternRefreshInterval={2}
+          patternAlpha={12}
+        />
+      </div>
       <Particles
         className="absolute inset-0"
         quantity={100}
