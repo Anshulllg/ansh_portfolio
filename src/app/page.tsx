@@ -1,33 +1,3 @@
-// import HeroSection from '@/components/hero'
-// import { GridPatternLinearGradient } from '@/components/hero/GridLayout'
-// import Navbar from '@/components/Nav/Navbar'
-// import Skills from '@/components/Skills'
-// import Projects from '@/components/Projects'
-// import React from 'react'
-// import Experience from '@/components/Experience/Experience'
-// import { Workx } from '@/components/Experience/Workx'
-// import Testimony from '@/components/Experience/Testimony'
-// import MusicPlayer from '@/components/hero/MusicPlayer'
-// // import ProjectPage from '@/components/ProjectPage'
-
-// export default function page() {
-//   return (
-//     <div>
-//       <Navbar/>
-//       <HeroSection/>
-//       <GridPatternLinearGradient/>
-//       <Experience/>
-//       <Workx/>
-//       <Skills/>
-//       <Projects/>
-//       <Testimony/>
-//       {/* <ProjectPage/> */}
-
-//     </div>
-//   )
-// }
-
-
 import HeroSection from '@/components/hero'
 import { GridPatternLinearGradient } from '@/components/hero/GridLayout'
 import Navbar from '@/components/Nav/Navbar'
@@ -38,13 +8,15 @@ import Experience from '@/components/Experience/Experience'
 import { Workx } from '@/components/Experience/Workx'
 import Testimony from '@/components/Experience/Testimony'
 import MusicPlayer from '@/components/hero/MusicPlayer'
-import ThreeJSScene from '@/components/EqualizerScene'
-import EqualizerScene from '@/components/EqualizerScene'
+import ThreeJSScene from '@/components/PointCloud'
+import EqualizerScene from '@/components/PointCloud'
+import PointCloud from '@/components/PointCloud'
+import Carousel from '@/components/Carousel'
 // import ProjectPage from '@/components/ProjectPage'
 
 export default function Page() {
   return (
-    <div className="h-screen snap-y snap-mandatory overflow-y-scroll">
+    <div className="no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
    
         <Navbar/>
 
@@ -65,10 +37,13 @@ export default function Page() {
       <div className="snap-start h-screen">
         <Testimony/>
       </div>
-      <div className="snap-start h-screen">
-        <EqualizerScene/>
-      </div>
-      {/* <ProjectPage/> */}
+      {/* <div className="snap-start h-screen">
+        <PointCloud/>
+      </div > */}
+      {/* <div className="snap-start h-screen">
+        <Carousel/>
+      </div > */}
+
     </div>
   )
 }

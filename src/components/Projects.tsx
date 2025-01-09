@@ -119,7 +119,7 @@ export default function Projects() {
               className="object-cover w-full h-full " 
             />
             {/* Wrap the SKETCHES text in a Link component */}
-            <Link href="/sketchespage">  {/* Assuming the route is /sketchpage */}
+            <Link href="/Carousel">  {/* Assuming the route is /sketchpage */}
               <p className="absolute syne text-4xl font-bold z-10 right-20 text-[#868686] group-hover:text-white">
                 SKETCHES
               </p>

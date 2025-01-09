@@ -16,6 +16,25 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px white; /* Outline color and width */
+  color: transparent; /* Make the text itself transparent */
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scroll-snap-type-x-mandatory {
+  scroll-snap-type: x mandatory;
+}
+.scroll-snap-align-center {
+  scroll-snap-align: center;
+}
+
 body {
   -ms-overflow-style: none; 
   scrollbar-width: none;

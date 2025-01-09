@@ -29,7 +29,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, toggleDrawer }) => {
           skills
           <div className='text-sm pl-10 syne'> 02</div>
         </Link>
-        <Link href="/projects" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
+        <Link href="/projectspage" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
           projects
           <div className='text-sm pl-10 syne'> 03</div>
         </Link>
