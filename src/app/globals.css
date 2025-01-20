@@ -235,3 +235,26 @@ body {
   left: 0%;
   right: 0%;
 }
+
+
+
+.hovered {
+  @apply opacity-50;
+}
+
+a.hovered {
+  @apply opacity-100;
+}
+
+/* Add color classes */
+.blue {
+  @apply bg-blue-900;
+}
+
+.green {
+  @apply bg-green-900;
+}
+
+.yellow {
+  @apply bg-yellow-900;
+}

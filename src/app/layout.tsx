@@ -1,29 +1,17 @@
 "use client";
 import type { Metadata } from "next";
-// import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { Syne } from 'next/font/google';
-import LoadingScreen from "@/components/Nav/LoadingScreen"; // Adjust the path as necessary
+import { Syne } from "next/font/google";
+import LoadingScreen from "@/components/Nav/LoadingScreen";
 import { useLayoutEffect, useState } from "react";
 import CustomCursor from "@/components/Nav/CustomCursor";
 
 export const syne_init = Syne({
-  subsets: ['latin'],
-  weight: ['800','400','700'], 
-  variable: '--font-syne',
+  subsets: ["latin"],
+  weight: ["800", "400", "700"],
+  variable: "--font-syne",
 });
-
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
 
 const metadata: Metadata = {
   title: "Anshul Goswami",
@@ -40,18 +28,27 @@ export default function RootLayout({
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // Set loading duration here (3 seconds)
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <html lang="en" className="
-    !scroll-smooth" suppressHydrationWarning>
-      <body className={` ${syne_init.variable} antialiased `}>
-      {/* ${geistSans.variable} ${geistMono.variable} */}
+    <html
+      lang="en"
+      className="!scroll-smooth"
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Favicon links */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#000000" />
+      </head>
+      <body className={`${syne_init.variable} antialiased`}>
         <CustomCursor />
-        <ThemeProvider 
+        <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem

@@ -6,23 +6,22 @@ import Noise from "../ui/Noise";
 
 export function GridPatternLinearGradient() {
   return (
-    <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden grain relative">
-      {/* <div >
+    <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden ">
+      <div >
         <Noise
           patternSize={250}
           patternScaleX={1}
           patternScaleY={1}
           patternRefreshInterval={2}
-          patternAlpha={12}
+          patternAlpha={10}
         />
-      </div> */}
+      </div>
       <GridPattern
         width={80}
         height={80}
         x={-1}
         y={-1}
         className={cn(
-          // "[mask-image:linear-gradient(to_top,#CE0000,#CE0000,transparent)]"
           "opacity-40"
         )}
       />

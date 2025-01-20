@@ -10,8 +10,8 @@ const CustomCursor = () => {
   const [dotX, setDotX] = useState(0);
   const [dotY, setDotY] = useState(0);
 
-  const speed = 0.3; // Outer circle speed
-  const dotSpeed = 0.4; // Inner dot speed
+  const speed = 0.3;
+  const dotSpeed = 0.4;
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {

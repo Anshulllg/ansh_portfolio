@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
         <footer className="absolute top-[650px] w-full px-16 flex justify-between items-center text-sm syne-m">
           <div >
           <MusicPlayer
-            imageUrl="/img/boombox.png"
+            // imageUrl="/img/boombox.png"
             audioUrl="/audio/bruno.mp3" // Path to your local MP3 in the public folder
           />
           </div>

@@ -1,10 +1,11 @@
-import React from 'react'
-import { HeroParticle } from './HeroParticles'
+import React from 'react';
+import { HeroParticle } from './HeroParticles';
+import { Canvas } from '@react-three/fiber';
 
 export default function HeroSection() {
   return (
-    <div>
+      <Canvas shadows camera={{ fov:30}} >
         <HeroParticle/>
-    </div>
+      </Canvas> 
   )
 }

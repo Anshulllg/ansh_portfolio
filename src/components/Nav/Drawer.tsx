@@ -7,6 +7,13 @@ interface DrawerProps {
 }
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, toggleDrawer }) => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      toggleDrawer(); // Close drawer after clicking
+    }
+  };
   return (
     <div
       className={`fixed top-0 right-0 h-full w-full bg-black bg-opacity-90 transform ${
@@ -21,26 +28,30 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, toggleDrawer }) => {
       </div>
 
       <div className="flex flex-col items-end justify-center h-full text-9xl space-y-8 pr-32 syne-m" style={{ color: '#404040' }}>
-        <Link href="/about" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
+
+        <button
+          onClick={() => scrollToSection('about')}
+          className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
           about
-          <div className='text-sm  syne pl-10 '> 01</div>
-        </Link>
-        <Link href="/skills" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
+          <div className='text-sm syne pl-10'> 01</div>
+        </button>
+
+        <button
+          onClick={() => scrollToSection('skills')}
+          className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
           skills
-          <div className='text-sm pl-10 syne'> 02</div>
-        </Link>
+          <div className='text-sm syne pl-10'> 01</div>
+        </button>
+
         <Link href="/projectspage" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
           projects
           <div className='text-sm pl-10 syne'> 03</div>
         </Link>
+        
         <Link href="/sketchespage" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300">
           artworks
           <div className='text-sm pl-10 syne'> 04</div>
         </Link>
-        {/* <Link href="/godplay" className="flex items-baseline hover:text-white transform hover:-translate-x-1 transition duration-300"> */}
-          {/* God's playground
-          <div className='text-sm pl-10 syne'> 04</div>
-        </Link> */}
       </div>
     </div>
   );
