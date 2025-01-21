@@ -10,15 +10,22 @@ gsap.registerPlugin(ScrollTrigger);
 export function Artwork() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fullscreenImage, setFullscreenImage] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
   const imagesRef = useRef([]);
   const isAnimating = useRef(false);
   const scrollTimeout = useRef(null);
-  const dragStart = useRef(0);
-  const dragStartX = useRef(0);
   
   const images = Array.from({ length: 73 }, (_, i) => `/artworks/artwork (${i + 1}).png`);
+
+  const handleImageClick = (src, idx) => {
+    setFullscreenImage({ url: src, index: idx });
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeFullscreen = () => {
+    setFullscreenImage(null);
+    document.body.style.overflow = 'auto';
+  };
 
   const animateToIndex = (index) => {
     if (isAnimating.current) return;
@@ -73,58 +80,6 @@ export function Artwork() {
       }, "<");
   };
 
-  const handleDragStart = (e) => {
-    if (isAnimating.current) return;
-    setIsDragging(true);
-    dragStart.current = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-    dragStartX.current = currentIndex;
-    
-    document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('touchmove', handleDragMove);
-    document.addEventListener('touchend', handleDragEnd);
-  };
-
-  const handleDragMove = (e) => {
-    if (!isDragging) return;
-    
-    const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-    const difference = dragStart.current - currentPosition;
-    const dragThreshold = window.innerWidth * 0.2; // 20% of screen width
-
-    if (Math.abs(difference) > dragThreshold) {
-      if (difference > 0) {
-        goToNext();
-      } else {
-        goToPrev();
-      }
-      handleDragEnd();
-    } else {
-      // Show drag preview animation
-      const dragPercent = (difference / dragThreshold) * 70;
-      gsap.to(imagesRef.current[currentIndex], {
-        xPercent: -dragPercent,
-        duration: 0.1,
-        ease: "none"
-      });
-    }
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    // Reset position if not triggering navigation
-    gsap.to(imagesRef.current[currentIndex], {
-      xPercent: 0,
-      duration: 0.3,
-      ease: "power2.out"
-    });
-    
-    document.removeEventListener('mousemove', handleDragMove);
-    document.removeEventListener('mouseup', handleDragEnd);
-    document.removeEventListener('touchmove', handleDragMove);
-    document.removeEventListener('touchend', handleDragEnd);
-  };
-
   const goToNext = () => {
     if (!isAnimating.current) {
       animateToIndex(currentIndex + 1);
@@ -162,13 +117,9 @@ export function Artwork() {
     const container = containerRef.current;
     if (container) {
       container.addEventListener('wheel', handleScroll, { passive: false });
-      container.addEventListener('mousedown', handleDragStart);
-      container.addEventListener('touchstart', handleDragStart);
       
       return () => {
         container.removeEventListener('wheel', handleScroll);
-        container.removeEventListener('mousedown', handleDragStart);
-        container.removeEventListener('touchstart', handleDragStart);
         if (scrollTimeout.current) {
           clearTimeout(scrollTimeout.current);
         }
@@ -176,7 +127,25 @@ export function Artwork() {
     }
   }, [currentIndex]);
 
-  // Rest of your component remains the same...
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (fullscreenImage) {
+        if (e.key === 'Escape') {
+          closeFullscreen();
+        } else if (e.key === 'ArrowRight') {
+          const nextIndex = (fullscreenImage.index + 1) % images.length;
+          setFullscreenImage({ url: images[nextIndex], index: nextIndex });
+        } else if (e.key === 'ArrowLeft') {
+          const prevIndex = (fullscreenImage.index - 1 + images.length) % images.length;
+          setFullscreenImage({ url: images[prevIndex], index: prevIndex });
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fullscreenImage, images]);
+
   return (
     <div className="relative h-screen">
       <div className="fixed top-0 left-0 right-0 z-10 flex justify-center py-8 bg-gradient-to-b from-black to-transparent">
@@ -203,7 +172,7 @@ export function Artwork() {
 
       <div 
         ref={containerRef}
-        className={`absolute inset-0 flex items-center justify-center overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className="absolute inset-0 flex items-center justify-center overflow-hidden"
       >
         <GridPatternLinearGradient/>
         <div className="relative w-full h-full flex items-center justify-center">
@@ -212,7 +181,7 @@ export function Artwork() {
               key={idx}
               ref={el => imagesRef.current[idx] = el}
               className="absolute w-[70vw] h-[70vh] cursor-pointer flex items-center justify-center"
-              onClick={() => !isDragging && handleImageClick(src, idx)}
+              onClick={() => handleImageClick(src, idx)}
             >
               <img
                 src={src}
@@ -232,22 +201,21 @@ export function Artwork() {
 
       <button
         onClick={goToPrev}
-        className="fixed left-8 top-3/4 transform -translate-y-1/2 text-white p-4 rounded-full  hover:opacity-60 z-10">
+        className="fixed left-8 top-3/4 transform -translate-y-1/2 text-white p-4 rounded-full hover:opacity-60 z-10">
         <img
-        src="/assets/left.svg"
-        alt="button"
-        className="w-10 h-10" />
-
+          src="/assets/left.svg"
+          alt="button"
+          className="w-10 h-10"
+        />
       </button>
       <button
         onClick={goToNext}
-        className="fixed right-8 top-3/4 transform -translate-y-1/2 text-white p-4 rounded-full  hover:opacity-60 z-10">
+        className="fixed right-8 top-3/4 transform -translate-y-1/2 text-white p-4 rounded-full hover:opacity-60 z-10">
         <img
-        src="/assets/right.svg"
-        alt="button"
-        className="w-10 h-10"
+          src="/assets/right.svg"
+          alt="button"
+          className="w-10 h-10"
         />
-
       </button>
     </div>
   );

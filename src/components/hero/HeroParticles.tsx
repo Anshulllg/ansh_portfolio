@@ -5,14 +5,12 @@ import { Avatar } from "./Avatar";
 import { OrbitControls, SpotLight } from "@react-three/drei";
 import { useControls } from "leva";
 import { Name } from "./Name";
+import {Hololens} from "./Hololens";
+import { Projector } from "./Projector";
+import { Tablet } from "./Tablet";
+import {Computer} from "./Computer";
 
 export function HeroParticle() {
-//   const { animation } = useControls({
-//     animation: {
-//       value: "Touch",
-//       options: ["Land", "Typing", "Sitting", "Touch", "Standing", "SittingI", "SittingD"]
-//     }
-  // });
 
   return (
     <>
@@ -22,13 +20,15 @@ export function HeroParticle() {
         <Avatar position={[0, 0,-0.6]} castShadow receiveShadow animation={"Touch"} />
         <Avatar position={[2.1, 0.7,-1]} rotation={[0,0.2,0]}  castShadow receiveShadow animation={"Typing"} />
         <Avatar position={[-2, 0,-0.6]} rotation={[0,0.4,0]}  castShadow receiveShadow animation={"Standing"} />
-        {/* <Avatar position={[-0.4, 0,-0.7]} rotation={[0,-0.5,0]} castShadow receiveShadow animation={"SittingD"} /> */}
+        <Hololens position={[-1.85, 1.62,-0.52]} rotation={[1.2,1,-1]} />
+        <Projector position={[-1, 0.25,-0.6]}   />
+        <Tablet position={[0.04, 1.07,-0.2]} rotation={[1,0,0]}  scale= {0.6} />
+        <Computer position={[2.2, 1.67,-0.15]} scale={0.4}  rotation={[0,0.2,0.04]}/>
         <Name position={[0, 1,-0.9]}/>
         
-        {/* Increased ambient light for better base illumination */}
+       
         <ambientLight intensity={0.4} />
 
-        {/* Main key light - made stronger and repositioned */}
         <directionalLight
           position={[3, 4, 2]}
           castShadow

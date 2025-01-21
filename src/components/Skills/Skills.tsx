@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 
 const skillsData = [
-  { skill: '3D', description: '3D modeling and animation' },
-  { skill: 'VISUAL', description: '3D modeling and animation' },
-  { skill: 'MOTION', description: '3D modeling and animation' },
-  { skill: 'PRODUCT', description: '3D modeling and animation' },
-  { skill: 'TUTORIAL', description: '3D modeling and animation' },
+  { skill: 'XR Design', description: '3D modeling and animation' },
+  { skill: 'XR Development', description: '3D modeling and animation' },
+  { skill: 'Mentor', description: '3D modeling and animation' },
+  { skill: 'Software Development', description: '3D modeling and animation' },
+  { skill: 'Research', description: '3D modeling and animation' },
 ];
 
 const Skills: React.FC = () => {

@@ -13,7 +13,7 @@ export default function Experience() {
         <div className='py-10'>
           {/* <Workx/> */}
           {/* <Game/> */}
-          <Dino/>
+          {/* <Dino/> */}
         </div>
     </div>
   )
