@@ -2,13 +2,11 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/ui/marquee";
 
-// Define the type for a company
 type Company = {
   name: string;
   logo: string;
 };
 
-// Companies data
 const companies: Company[] = [
   {
     name: "Apple",
@@ -47,7 +45,6 @@ const CompanyCard: React.FC<Company> = ({ logo, name }) => {
   );
 };
 
-// Workx component
 export function Workx() {
   return (
     <div className="relative flex h-[500px] w-full items-center justify-center overflow-hidden bg-background md:shadow-xl">

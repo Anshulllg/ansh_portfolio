@@ -213,7 +213,10 @@ const SkillSphere = () => {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameRef.current);
+      if (animationFrameRef.current !== undefined) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      
       controls.dispose();
       renderer.dispose();
     };

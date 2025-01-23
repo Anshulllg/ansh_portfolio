@@ -28,16 +28,16 @@ const LoadingScreen = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
-    // Change word every 10 milliseconds
+  
     const wordInterval = setInterval(() => {
       setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, 70); 
 
-    // Simulate loading progress
+ 
     const progressInterval = setInterval(() => {
       setLoadingProgress((prevProgress) => {
         if (prevProgress >= 100) {
-          clearInterval(progressInterval); // Clear interval when progress reaches 100
+          clearInterval(progressInterval); 
           return 100;
         }
         return prevProgress + 1;

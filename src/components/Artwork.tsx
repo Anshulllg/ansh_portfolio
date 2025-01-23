@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, createRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { GridPatternLinearGradient } from './hero/GridLayout';
@@ -7,17 +7,29 @@ import { X } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
+interface FullscreenImage {
+  url: string;
+  index: number;
+}
+
 export function Artwork() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [fullscreenImage, setFullscreenImage] = useState(null);
-  const containerRef = useRef(null);
-  const imagesRef = useRef([]);
-  const isAnimating = useRef(false);
-  const scrollTimeout = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [fullscreenImage, setFullscreenImage] = useState<FullscreenImage | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const imagesRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
+  const isAnimating = useRef<boolean>(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
   const images = Array.from({ length: 73 }, (_, i) => `/artworks/artwork (${i + 1}).png`);
 
-  const handleImageClick = (src, idx) => {
+  // Initialize refs for images
+  useEffect(() => {
+    imagesRef.current = Array(images.length)
+      .fill(null)
+      .map(() => createRef<HTMLDivElement>());
+  }, [images.length]);
+
+  const handleImageClick = (src: string, idx: number) => {
     setFullscreenImage({ url: src, index: idx });
     document.body.style.overflow = 'hidden';
   };
@@ -27,7 +39,7 @@ export function Artwork() {
     document.body.style.overflow = 'auto';
   };
 
-  const animateToIndex = (index) => {
+  const animateToIndex = (index: number) => {
     if (isAnimating.current) return;
     isAnimating.current = true;
 
@@ -43,35 +55,36 @@ export function Artwork() {
     const prevIndex = (newIndex - 1 + images.length) % images.length;
     const nextIndex = (newIndex + 1) % images.length;
 
-    imagesRef.current.forEach((img, idx) => {
-      if (idx !== prevIndex && idx !== newIndex && idx !== nextIndex) {
+    imagesRef.current.forEach((imgRef, idx) => {
+      const img = imgRef.current;
+      if (img && idx !== prevIndex && idx !== newIndex && idx !== nextIndex) {
         gsap.set(img, { xPercent: idx > newIndex ? 100 : -100, opacity: 0, scale: 0.7 });
       }
     });
 
     timeline
-      .to(imagesRef.current[currentIndex], {
+      .to(imagesRef.current[currentIndex].current, {
         xPercent: index > currentIndex ? -100 : 100,
         scale: 0.7,
         opacity: 0.5,
         duration: 0.8,
         ease: "power2.inOut"
       })
-      .to(imagesRef.current[newIndex], {
+      .to(imagesRef.current[newIndex].current, {
         xPercent: 0,
         scale: 0.7,
         opacity: 1,
         duration: 0.8,
         ease: "power2.inOut"
       }, "<")
-      .to(imagesRef.current[prevIndex], {
+      .to(imagesRef.current[prevIndex].current, {
         xPercent: -70,
         scale: 0.7,
         opacity: 0.5,
         duration: 0.8,
         ease: "power2.inOut"
       }, "<")
-      .to(imagesRef.current[nextIndex], {
+      .to(imagesRef.current[nextIndex].current, {
         xPercent: 70,
         scale: 0.7,
         opacity: 0.5,
@@ -79,6 +92,7 @@ export function Artwork() {
         ease: "power2.inOut"
       }, "<");
   };
+
 
   const goToNext = () => {
     if (!isAnimating.current) {
@@ -92,7 +106,7 @@ export function Artwork() {
     }
   };
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: WheelEvent) => {
     e.preventDefault();
     
     if (scrollTimeout.current) {
@@ -116,10 +130,10 @@ export function Artwork() {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('wheel', handleScroll, { passive: false });
+      container.addEventListener('wheel', handleScroll as EventListener, { passive: false });
       
       return () => {
-        container.removeEventListener('wheel', handleScroll);
+        container.removeEventListener('wheel', handleScroll as EventListener);
         if (scrollTimeout.current) {
           clearTimeout(scrollTimeout.current);
         }
@@ -128,7 +142,7 @@ export function Artwork() {
   }, [currentIndex]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (fullscreenImage) {
         if (e.key === 'Escape') {
           closeFullscreen();
@@ -179,7 +193,7 @@ export function Artwork() {
           {images.map((src, idx) => (
             <div
               key={idx}
-              ref={el => imagesRef.current[idx] = el}
+              ref={imagesRef.current[idx]}
               className="absolute w-[70vw] h-[70vh] cursor-pointer flex items-center justify-center"
               onClick={() => handleImageClick(src, idx)}
             >

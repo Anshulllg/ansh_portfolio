@@ -33,27 +33,22 @@ export function Avatar(props) {
   const {actions} = useAnimations([ SittingIdleAnimation[0], SittingDownAnimation[0], typingAnimation[0],landingAnimation[0], SittingAnimation[0], TouchAnimation[0], StandingAnimation[0]], group);
 
   useEffect(()=>{
-    // Make sure actions and the specific animation exist
+
     if (actions && actions[animation]) {
-      // Check if the animation is "Landing"
       if (animation === "Land") {
-        // For landing animation, set loop to false
         actions[animation].reset().fadeIn(0.5).setLoop(THREE.LoopOnce, 1).play();
-        // Optionally, you can also set the clamp when using LoopOnce
         actions[animation].clampWhenFinished = true;
       } else {
-        // For other animations, keep the default looping behavior
         actions[animation].reset().fadeIn(0.5).play();
       }
 
       return () => {
-        // Make sure the action still exists when cleaning up
         if (actions[animation]) {
           actions[animation].reset().fadeOut(0.5);
         }
       }
     }
-  }, [animation, actions]); // Added actions as a dependency
+  }, [animation, actions]); 
 
   return (
     <group {...props} ref={group} dispose={null}>

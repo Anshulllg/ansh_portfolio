@@ -1,19 +1,27 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, createRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { GridPatternLinearGradient } from './hero/GridLayout';
 
 gsap.registerPlugin(ScrollTrigger);
 
+
+interface Project {
+  id: number;
+  name: string;
+  image: string;
+  url: string;
+}
+
 export function DesignProjects() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const containerRef = useRef(null);
-  const imagesRef = useRef([]);
-  const isAnimating = useRef(false);
-  const scrollTimeout = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const imagesRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
+  const isAnimating = useRef<boolean>(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
-  const projects = [
+  const projects: Project[] = [
     {
       id: 1,
       name: "Lumobius",
@@ -64,11 +72,17 @@ export function DesignProjects() {
     }
   ];
 
-  const handleProjectClick = (url) => {
+  useEffect(() => {
+    imagesRef.current = Array(projects.length)
+      .fill(null)
+      .map(() => createRef<HTMLDivElement>());
+  }, [projects.length]);
+
+  const handleProjectClick = (url: string) => {
     window.open(url, '_blank');
   };
 
-  const animateToIndex = (index) => {
+  const animateToIndex = (index: number) => {
     if (isAnimating.current) return;
     isAnimating.current = true;
 
@@ -84,35 +98,36 @@ export function DesignProjects() {
     const prevIndex = (newIndex - 1 + projects.length) % projects.length;
     const nextIndex = (newIndex + 1) % projects.length;
 
-    imagesRef.current.forEach((img, idx) => {
-      if (idx !== prevIndex && idx !== newIndex && idx !== nextIndex) {
+    imagesRef.current.forEach((imgRef, idx) => {
+      const img = imgRef.current;
+      if (img && idx !== prevIndex && idx !== newIndex && idx !== nextIndex) {
         gsap.set(img, { xPercent: idx > newIndex ? 100 : -100, opacity: 0, scale: 0.7 });
       }
     });
 
     timeline
-      .to(imagesRef.current[currentIndex], {
+      .to(imagesRef.current[currentIndex].current, {
         xPercent: index > currentIndex ? -100 : 100,
         scale: 0.7,
         opacity: 0.5,
         duration: 0.8,
         ease: "power2.inOut"
       })
-      .to(imagesRef.current[newIndex], {
+      .to(imagesRef.current[newIndex].current, {
         xPercent: 0,
         scale: 0.7,
         opacity: 1,
         duration: 0.8,
         ease: "power2.inOut"
       }, "<")
-      .to(imagesRef.current[prevIndex], {
+      .to(imagesRef.current[prevIndex].current, {
         xPercent: -70,
         scale: 0.7,
         opacity: 0.5,
         duration: 0.8,
         ease: "power2.inOut"
       }, "<")
-      .to(imagesRef.current[nextIndex], {
+      .to(imagesRef.current[nextIndex].current, {
         xPercent: 70,
         scale: 0.7,
         opacity: 0.5,
@@ -133,7 +148,7 @@ export function DesignProjects() {
     }
   };
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: WheelEvent) => {
     e.preventDefault();
     
     if (scrollTimeout.current) {
@@ -157,10 +172,10 @@ export function DesignProjects() {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('wheel', handleScroll, { passive: false });
+      container.addEventListener('wheel', handleScroll as EventListener, { passive: false });
       
       return () => {
-        container.removeEventListener('wheel', handleScroll);
+        container.removeEventListener('wheel', handleScroll as EventListener);
         if (scrollTimeout.current) {
           clearTimeout(scrollTimeout.current);
         }
@@ -183,7 +198,7 @@ export function DesignProjects() {
           {projects.map((project, idx) => (
             <div
               key={project.id}
-              ref={el => imagesRef.current[idx] = el}
+              ref={imagesRef.current[idx]}
               className="absolute w-[70vw] h-[70vh] cursor-pointer flex items-center justify-center flex-col"
               onClick={() => handleProjectClick(project.url)}
             >
@@ -193,11 +208,6 @@ export function DesignProjects() {
                 className="max-w-full max-h-[60vh] object-contain mb-4"
                 draggable="false"
               />
-              {/* <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="text-white syne text-4xl font-bold opacity-0 hover:opacity-100 transition-opacity">
-                  {project.name}
-                </h2>
-              </div> */}
             </div>
           ))}
         </div>

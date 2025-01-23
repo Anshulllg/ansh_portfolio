@@ -1,4 +1,4 @@
-'use client'; // This tells Next.js that this component should be a Client Component
+'use client';
 import WordPullUp from "@/components/ui/word-pull-up";
 import React, { useState } from 'react';
 import Drawer from './Drawer';
@@ -24,11 +24,9 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer positioned absolutely with fixed distance */}
         <footer className="absolute top-[650px] w-full px-16 flex justify-between items-center text-sm syne-m">
           <div >
           <MusicPlayer
-            // imageUrl="/img/boombox.png"
             audioUrl="/audio/bruno.mp3" // Path to your local MP3 in the public folder
           />
           </div>
@@ -41,7 +39,6 @@ const Navbar: React.FC = () => {
         </footer>
       </nav>
 
-      {/* Drawer Component */}
       <Drawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
     </>
   );

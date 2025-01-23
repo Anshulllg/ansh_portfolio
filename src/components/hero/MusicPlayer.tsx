@@ -44,7 +44,7 @@ const MusicPlayerProps: React.FC<MusicPlayer> = ({ audioUrl }) => {
           viewBox="0 0 80 60" 
           className="w-full h-full"
         >
-          {/* Wave/Line */}
+  
           {isPlaying ? (
             <path
               d="M 20 30 Q 30 20, 40 30 Q 50 40, 60 30"
@@ -54,7 +54,7 @@ const MusicPlayerProps: React.FC<MusicPlayer> = ({ audioUrl }) => {
               strokeLinecap="round"
               className="animate-traveling-wave"
             >
-              {/* Add animation for traveling wave effect */}
+            
               <animate
                 attributeName="d"
                 values="
