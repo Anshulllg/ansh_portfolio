@@ -9,45 +9,45 @@ type Company = {
 
 const companies: Company[] = [
   {
-    name: "Apple",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+    name: "Memboro",
+    logo: "/assets/exp/4.png",
   },
   {
-    name: "Google",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    name: "Respct",
+    logo: "/assets/exp/5.png",
   },
   {
-    name: "Microsoft",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    name: "Melange Lab",
+    logo: "/assets/exp/1.png",
   },
   {
-    name: "Amazon",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    name: "Ihub Anubhuti",
+    logo: "/assets/exp/3.png",
   },
   {
-    name: "Facebook",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+    name: "Graphics Research Group",
+    logo: "/assets/exp/2.png",
+  },
+  {
+    name: "NebulaIQ",
+    logo: "/assets/exp/6.png",
   },
 ];
 
 const CompanyCard: React.FC<Company> = ({ logo, name }) => {
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center w-64 h-64 p-4 border rounded-xl",
-        "border-gray-300 bg-white hover:bg-gray-100",
-        "dark:border-gray-700 dark:bg-[#08080A] dark:hover:bg-gray-900"
-      )}
-    >
-      <img className="h-24 w-24 object-contain mb-4" alt={name} src={logo} />
-      <figcaption className="text-lg font-medium dark:text-white">{name}</figcaption>
+    <div className={cn("flex flex-col items-center justify-center p-10")}>
+      {/* <img className="h-12 w-12 object-contain " alt={name} src={logo} /> */}
+      <figcaption className="text-xs font-medium dark:text-white syne-m">
+        {name}
+      </figcaption>
     </div>
   );
 };
 
 export function Workx() {
   return (
-    <div className="relative flex h-[500px] w-full items-center justify-center overflow-hidden bg-background md:shadow-xl">
+    <div className="relative flex h-[60px] w-full items-center justify-center overflow-hidden bg-white/10 md:shadow-xl">
       <Marquee pauseOnHover className="[--duration:20s]">
         {companies.map((company) => (
           <CompanyCard key={company.name} {...company} />

@@ -69,7 +69,11 @@ const TestimonialSlider: React.FC = () => {
         <div
           ref={testimonialRef}
           className="flex-1 h-[500px] overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
-          style={{ scrollBehavior: "smooth" }}
+          style={{
+            scrollBehavior: "smooth",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, white 20%, white 80%, transparent)",
+            maskImage: "linear-gradient(to bottom, transparent, white 20%, white 80%, transparent)",
+          }}
         >
           {testimonials.map((testimonial, index) => (
             <div

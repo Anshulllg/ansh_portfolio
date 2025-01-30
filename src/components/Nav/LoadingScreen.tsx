@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 
 const words = [
   "Creative",
@@ -28,31 +28,36 @@ const LoadingScreen = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
-  
+    // Word cycling effect
     const wordInterval = setInterval(() => {
       setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 70); 
+    }, 70);
 
- 
+    // Progress bar effect
+    const startTime = Date.now();
+    const duration = 3000; // 3 seconds to match your layout timer
+
     const progressInterval = setInterval(() => {
-      setLoadingProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(progressInterval); 
-          return 100;
-        }
-        return prevProgress + 1;
-      });
-    }, 50); 
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(Math.floor((elapsed / duration) * 100), 100);
+      
+      setLoadingProgress(progress);
 
+      if (progress === 100) {
+        clearInterval(progressInterval);
+      }
+    }, 16); // Approximately 60fps
+
+    // Cleanup function
     return () => {
       clearInterval(wordInterval);
       clearInterval(progressInterval);
     };
-  }, []);
+  }, []); // Empty dependency array so it only runs once
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
-      <h1 className="text-8xl text-black syne font-bold text-center transition-opacity duration-0.1">
+      <h1 className="text-8xl text-black syne font-bold text-center transition-opacity duration-100">
         {words[currentWordIndex]}
       </h1>
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-1/2">
@@ -62,7 +67,7 @@ const LoadingScreen = () => {
             style={{ width: `${loadingProgress}%` }}
           />
         </div>
-        <p className="text-center syne text-black">{loadingProgress}</p>
+        <p className="text-center syne text-black">{loadingProgress}%</p>
       </div>
     </div>
   );

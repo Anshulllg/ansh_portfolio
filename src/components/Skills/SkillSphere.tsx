@@ -1,10 +1,119 @@
-'use client';
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+const SKILL_CATEGORIES = {
+  XR: {
+    tools: [
+      { name: "Unity", logo: "/posts/unity.png" },
+      { name: "Unreal Engine", logo: "/posts/unity.png" },
+      { name: "ARKit", logo:  "/posts/unity.png" },
+      { name: "ARCore", logo:  "/posts/unity.png" },
+      { name: "WebXR", logo:  "/posts/unity.png" },
+      { name: "Unreal Engine", logo: "/posts/unity.png" },
+      { name: "ARKit", logo:  "/posts/unity.png" },
+      { name: "ARCore", logo:  "/posts/unity.png" },
+      { name: "WebXR", logo:  "/posts/unity.png" },
+      { name: "Unreal Engine", logo: "/posts/unity.png" },
+      { name: "ARKit", logo:  "/posts/unity.png" },
+      { name: "ARCore", logo:  "/posts/unity.png" },
+      { name: "WebXR", logo:  "/posts/unity.png" },
+    ],
+    skills: [
+      "3D Development",
+      "AR/VR Application Development",
+      "Spatial Computing",
+      "Real-time Rendering",
+      "Physics Simulation",
+      "Asset Optimization",
+    ],
+  },
+  Code: {
+    tools: [
+      { name: "TypeScript", logo: "/posts/img2.jpg" },
+      { name: "React", logo: "/Code/react.png" },
+      { name: "Next.js", logo: "/Code/nextjs.png" },
+      { name: "Node.js", logo: "/Code/nodejs.png" },
+      { name: "Python", logo: "/Code/python.png" },
+    ],
+    skills: [
+      "Full Stack Development",
+      "API Design",
+      "Database Management",
+      "System Architecture",
+      "Performance Optimization",
+      "Cloud Services",
+    ],
+  },
+  Design: {
+    tools: [
+      { name: "Figma", logo: "/posts/img3.jpg" },
+      { name: "Blender", logo: "/Design/blender.png" },
+      { name: "Adobe XD", logo: "/Design/xd.png" },
+      { name: "Sketch", logo: "/Design/sketch.png" },
+      { name: "Photoshop", logo: "/Design/photoshop.png" },
+    ],
+    skills: [
+      "UI/UX Design",
+      "3D Modeling",
+      "Prototyping",
+      "User Research",
+      "Visual Design",
+      "Design Systems",
+    ],
+  },
+};
+
+const SkillBox = ({ category }: { category: keyof typeof SKILL_CATEGORIES }) => {
+  const { tools, skills } = SKILL_CATEGORIES[category];
+
+  return (
+    <div className="w-full bg-black/70 backdrop-blur-sm p-6 rounded-t-2xl">
+      <div className="flex gap-8">
+        {/* Tools Section */}
+        <div className="flex-1">
+          <h3 className="text-white/80 text-sm mb-4">TOOLS</h3>
+          <div className="grid grid-cols-8 gap-4">
+            {tools.map((tool, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center gap-1 p-2 bg-white/10 rounded-lg"
+              >
+                <img
+                  src={tool.logo}
+                  alt={tool.name}
+                  className="w-10 h-10 object-contain"
+                />
+                {/* <span className="text-white text-sm">{tool.name}</span> */}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills Section */}
+        <div className="flex-1 border-l border-white/20 pl-8">
+          <h3 className="text-white/80 text-sm mb-4 ">SKILLS</h3>
+          <div className="grid grid-cols-2 gap-4">
+            {skills.map((skill, index) => (
+              <div
+                key={index}
+                className="text-white text-sm py-2 px-4 bg-white/10 rounded-lg"
+              >
+                {skill}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SkillSphere = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof SKILL_CATEGORIES | null>(null);
+  
   const sceneRef = useRef<THREE.Scene | null>(null);
   const spheresRef = useRef<THREE.Mesh<THREE.SphereGeometry, THREE.MeshPhysicalMaterial>[]>([]);
   const mouseRef = useRef(new THREE.Vector2());
@@ -13,9 +122,14 @@ const SkillSphere = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | undefined>(undefined);
   const controlsRef = useRef<OrbitControls | null>(null);
 
+  const handleCategorySelect = (category: keyof typeof SKILL_CATEGORIES) => {
+    setSelectedCategory(prevCategory => 
+      prevCategory === category ? null : category
+    );
+  };
+
   useEffect(() => {
     if (!canvasRef.current) return;
-
     // Scene setup with fog for depth
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 15, 40);
@@ -226,24 +340,31 @@ const SkillSphere = () => {
     <div className="relative w-full h-screen">
       <canvas ref={canvasRef} className="w-full h-full" />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-8">
-        <h1 className="text-4xl text-white font-bold syne">
-          Skills
-        </h1>
+        <h1 className="text-4xl text-white font-bold syne">Skills</h1>
         <div className="flex gap-6 syne-r">
-          <button className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all">
-            <img src="img/VR.png" alt="XR" className="w-6 h-6" />
-            <span className="text-white">XR</span>
-          </button>
-          <button className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all">
-            <img src="img/Code.png" alt="Code" className="w-6 h-6" />
-            <span className="text-white">Code</span>
-          </button>
-          <button className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all">
-            <img src="img/Design.png" alt="Design" className="w-6 h-6" />
-            <span className="text-white">Design</span>
-          </button>
+          {(Object.keys(SKILL_CATEGORIES) as Array<keyof typeof SKILL_CATEGORIES>).map(category => (
+            <button 
+              key={category}
+              onClick={() => handleCategorySelect(category)}
+              className={`flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all ${
+                selectedCategory === category ? 'ring-2 ring-white' : ''
+              }`}
+            >
+              <img 
+                src={`/img/${category}.png`} 
+                alt={category} 
+                className="w-6 h-6" 
+              />
+              <span className="text-white">{category}</span>
+            </button>
+          ))}
         </div>
       </div>
+      {selectedCategory && (
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-[80%] max-w-7xl">
+          <SkillBox category={selectedCategory} />
+        </div>
+      )}
     </div>
   );
 };

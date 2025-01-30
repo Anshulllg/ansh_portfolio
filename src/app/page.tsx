@@ -8,12 +8,24 @@ import React from 'react'
 import Experience from '@/components/Experience/Experience'
 import Testimony from '@/components/Experience/Testimony'
 import PointCloud from '@/components/Skills/SkillSphere'
-import Footer from '@/components/Footer';
+import Footer from '@/components/Nav/Footer';
 import Positions from '@/components/Experience/Positions';
 import About from '@/components/About';
+import { useEffect } from 'react';
 
 export default function Page() {
-
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, []);
   return (
 
     <div  className=" no-scrollbar h-screen snap-y snap-mandatory overflow-y-scroll">
